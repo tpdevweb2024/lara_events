@@ -1,0 +1,341 @@
+// resources/scss/app.scss
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap");
+
+$linear: linear-gradient(
+    67deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+);
+$linear-mobile: linear-gradient(
+    95deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+);
+$linear-category: linear-gradient(30deg, #b51cbd, #f95d15, #d7481c);
+$linear-button: linear-gradient(90deg, #f79533, #f37055, #ef4e7b);
+$linear-span: linear-gradient(30deg, #f37055, #ef4e7b);
+$linear-cta: linear-gradient(20deg, #f79533, #f37055, #ef4e7b);
+
+@mixin marginAuto {
+    margin: auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+@mixin tags {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    background: $linear-span;
+}
+
+@mixin category(
+    $top: inherit,
+    $right: inherit,
+    $bottom: inherit,
+    $left: inherit,
+    $size: 1rem
+) {
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    padding: 0.25rem 0.75rem;
+    border-radius: 5px;
+    color: white;
+    font-size: $size;
+    background: $linear-category;
+}
+
+*,
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Nunito", sans-serif;
+    box-sizing: border-box;
+}
+
+header {
+    // dégradé orange avec angle
+    background: $linear;
+    @media screen and (max-width: 1200px) {
+    }
+    color: white;
+
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 60px;
+        position: relative;
+
+        @include marginAuto();
+        @media screen and (max-width: 1200px) {
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+
+            @media screen and (max-width: 1200px) {
+                text-align: left;
+            }
+        }
+
+        .hamburger {
+            @media screen and (min-width: 1200px) {
+                display: none;
+            }
+            @media screen and (max-width: 1200px) {
+                justify-self: end;
+                z-index: 2000;
+                position: fixed;
+                padding-right: 1rem;
+            }
+            span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                margin-bottom: 5px;
+                background: white;
+                border-radius: 5px;
+            }
+        }
+
+        .menu {
+            @media screen and (max-width: 1200px) {
+                padding: 2rem 1rem;
+                display: none;
+                &.active {
+                    // add a transition slide
+                    display: flex;
+                    height: 100vh;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: $linear;
+                    z-index: 1000;
+                }
+            }
+
+            nav {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                width: 100%;
+
+                ul {
+                    display: flex;
+                    list-style: none;
+
+                    @media screen and (max-width: 1200px) {
+                        flex-direction: column;
+                        gap: 1rem;
+                    }
+
+                    li {
+                        padding: 0 10px;
+                        a {
+                            color: white;
+                            text-decoration: none;
+                            font-weight: 300;
+                            @media screen and (max-width: 1200px) {
+                                font-size: 2rem;
+                            }
+
+                            &.active {
+                                font-weight: bold;
+                            }
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+main {
+    .container {
+        @include marginAuto;
+        padding: 2rem 0;
+        @media screen and (max-width: 1200px) {
+            padding: 1rem;
+        }
+
+        .shortcuts {
+            display: flex;
+            justify-content: start;
+            gap: 1rem;
+            @media screen and (max-width: 1200px) {
+                padding: 1rem;
+                flex-direction: column;
+            }
+
+            a {
+                &.shortcut {
+                    border: 2px solid orangered;
+                    border-radius: 5px;
+                    padding: 0.5rem 1rem;
+                    overflow: hidden;
+                    text-decoration: none;
+                    color: orangered;
+
+                    &:hover {
+                        border: 2px solid orangered;
+                        background: $linear-button;
+                        color: white;
+                    }
+                }
+            }
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 2rem 0;
+            @media screen and (max-width: 1200px) {
+                padding: 1rem;
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .card {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                border: 2px solid #ebebeb;
+                border-radius: 12px;
+                overflow: hidden;
+
+                .card-img {
+                    position: relative;
+
+                    .category {
+                        @include category(1rem, 1rem, inherit, inherit, 12px);
+                    }
+                    img {
+                        width: 100%;
+                        height: 200px;
+                        object-fit: cover;
+                    }
+                }
+
+                .card-content {
+                    padding: 0 1rem 1rem 1rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    .card-title {
+                        font-size: 18px;
+                        font-weight: 700;
+                    }
+                    .card-text {
+                        font-size: 14px;
+                    }
+                    .tags {
+                        span {
+                            @include tags;
+
+                            &::before {
+                                content: "#";
+                            }
+                        }
+                    }
+
+                    .card-cta {
+                        padding-top: 1rem;
+                        text-align: right;
+                        .card-button {
+                            padding: 0.5rem 1rem;
+                            border-radius: 5px;
+                            background: $linear-cta;
+                            color: white;
+                            border: none;
+                            font-weight: 700;
+                            font-size: 14px;
+                            cursor: pointer;
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .show {
+        .img-thumbnails {
+            position: relative;
+            .category {
+                @include category(inherit, inherit, 2rem, 2rem, 1.3rem);
+            }
+
+            img {
+                width: 100%;
+                height: 400px;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 18px 0 18px 0;
+            }
+        }
+        .content {
+            padding: 1rem 0;
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .article {
+                font-size: 16px;
+                text-align: justify;
+            }
+        }
+
+        .tags {
+            span {
+                @include tags;
+
+                &::before {
+                    content: "#";
+                }
+            }
+        }
+    }
+}
+
+footer {
+    background: #393939;
+    color: white;
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @include marginAuto();
+        min-height: 60px;
+    }
+}
