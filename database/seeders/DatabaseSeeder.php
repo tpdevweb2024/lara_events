@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tag;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Event;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +18,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Category::factory(15)->create();
+        Tag::factory(15)->create();
+        Event::factory(45)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        for ($i = 0; $i < 30; $i++) {
+            DB::table('events_tags')->insert([
+                'event_id' => Event::inRandomOrder()->first()->id,
+                'tag_id' => Tag::inRandomOrder()->first()->id
+            ]);
+        }
     }
 }
