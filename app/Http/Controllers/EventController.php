@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\Event;
 use App\Models\Category;
+use App\Mail\eventInsertedMail;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Mail\eventUpdatedMail;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -15,8 +19,11 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::with(["category", "tags"])->paginate(9);
-        return view("events.index", ["events" => $events]);
+        $per_page = request("per_page", 10);
+        $events = Event::with(["category", "tags"])->paginate($per_page);
+        return view("events.index", [
+            "events" => $events
+        ]);
     }
 
     /**
@@ -37,6 +44,7 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
+
         // On peut aussi utiliser $request->validate() plutôt que le StoreEventRequest
         $event = new Event();
         $event->title = $request->title;
@@ -48,6 +56,10 @@ class EventController extends Controller
         // Il est nécessaire de posséder un id de $event avant de générer les FK avec les tags
         // Donc on le save puis on attach les mots clés associés
         $event->tags()->attach($request->tags);
+
+        // On evoie un email si l'event a été créé
+        Mail::to("admin@gmail.com")->send(new eventInsertedMail($event));
+
         return redirect()->route("events.index");
     }
 
@@ -86,7 +98,11 @@ class EventController extends Controller
         $event->category_id = $request->category_id;
         $event->save();
         $event->tags()->sync($request->tags);
-        return redirect()->route("events.index");
+
+        Mail::to("admin@gmail.com")->send(new eventUpdatedMail());
+
+
+        return redirect()->route("events.show", $event);
     }
 
     /**
@@ -96,5 +112,32 @@ class EventController extends Controller
     {
         $event->delete();
         return redirect()->route("events.index");
+    }
+
+    public function today()
+    {
+        $events = Event::where("date", "<", date("2024-08-03"))->paginate();
+        return view("events.index", [
+            "events" => $events
+        ]);
+    }
+
+    public function tomorrow()
+    {
+        $events = Event::where("date", ">", date("2024-08-03 00:00:00"))->where("date", "<", date("2024-08-04 00:00:00"))->paginate();
+        return view("events.index", [
+            "events" => $events
+        ]);
+    }
+
+    public function api()
+    {
+        $events = Event::with(["category", "tags"])->get();
+        return response()->json($events);
+    }
+    public function apiShow(Event $event)
+    {
+        $events = Event::with(["category", "tags"])->find($event->id);
+        return response()->json($events);
     }
 }

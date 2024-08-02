@@ -347,18 +347,6 @@ main {
     }
 }
 
-footer {
-    background: #393939;
-    color: white;
-    .wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        @include marginAuto();
-        min-height: 60px;
-    }
-}
-
 .form {
     form {
         display: flex;
@@ -407,6 +395,7 @@ footer {
                 }
             }
         }
+
         .submit button {
             padding: 0.5rem 1rem;
             border-radius: 5px;
@@ -417,7 +406,10 @@ footer {
         }
     }
 }
-
+.delete_events {
+    background: red !important;
+    margin-top: 15px;
+}
 // PAGINATION
 .pagination {
     display: flex;
@@ -464,5 +456,17 @@ footer {
                 color: white;
             }
         }
+    }
+}
+
+footer {
+    background: #393939;
+    color: white;
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @include marginAuto();
+        min-height: 60px;
     }
 }

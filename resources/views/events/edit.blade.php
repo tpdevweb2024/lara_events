@@ -55,6 +55,18 @@
                             </div>
                         </div>
                     </form>
+                    <div class="form"
+                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet évènement ?');">
+                        <form action="{{ route('events.destroy', $event) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <div class="submit">
+                                <div>
+                                    <button class="delete_events" type="submit" class="">Supprimer</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

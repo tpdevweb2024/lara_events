@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('events_tags', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('event_id')->references('id')->on('events');
+            $table->foreignId('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->foreignId('tag_id')->references('id')->on('tags');
         });
     }

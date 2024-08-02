@@ -4,8 +4,8 @@
     <main>
         <div class="container">
             <div class="shortcuts">
-                <a class="shortcut" href="">Aujourd'hui</a>
-                <a class="shortcut" href="">Demain</a>
+                <a class="shortcut" href="{{ route('events.today') }}">Aujourd'hui</a>
+                <a class="shortcut" href="{{ route('events.tomorrow') }}">Demain</a>
                 <a class="shortcut" href="">Cette semaine</a>
                 <a class="shortcut" href="">Ce mois-ci</a>
             </div>
@@ -22,7 +22,7 @@
                             <h3>{{ $event->date }}</h3>
                             <div class="tags">
                                 @foreach ($event->tags as $tag)
-                                    <span>{{ $tag->name }}</span>
+                                    <span class="tag">{{ $tag->name }}</span>
                                 @endforeach
                             </div>
                             <p>{{ $event->description }}</p>
@@ -33,7 +33,6 @@
                     </div>
                 @endforeach
             </div>
-
             <div class="pagination">
                 <ul class="pagination-list">
                     @foreach ($events->getUrlRange(1, $events->lastPage()) as $page => $url)
@@ -46,6 +45,7 @@
                     @endforeach
                 </ul>
             </div>
+
         </div>
     </main>
 @endsection

@@ -8,8 +8,11 @@ use App\Http\Controllers\CategoryController;
 
 Route::get("/", [HomeController::class, "home"])->name("home");
 Route::get("/hello", [HomeController::class, "hello"])->name("hello");
-Route::get("/events", [EventController::class, "index"])->name("events.index");
+Route::get("/api/events", [EventController::class, "api"])->name("events.api");
+Route::get("/api/events/{event}", [EventController::class, "apiShow"])->name("events.apishow");
 
+Route::get("/events/today", [EventController::class, "today"])->name("events.today");
+Route::get("/events/tomorrow", [EventController::class, "tomorrow"])->name("events.tomorrow");
 Route::resource("events", EventController::class);
 Route::resource("tags", TagController::class);
 Route::resource("categories", CategoryController::class);

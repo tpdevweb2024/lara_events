@@ -1,6 +1,7 @@
 <header>
     <div class="wrapper">
-        <div class="logo"><a href="{{ route('home') }}">Lara-events</a>
+        <div class="logo">
+            <a href="{{ route('home') }}">Lara-events</a>
         </div>
         <div class="hamburger">
             <span></span>
@@ -10,15 +11,11 @@
         <div class="menu">
             <nav>
                 <ul>
-                    <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
-                    </li>
-                    <li><a href="{{ route('events.index') }}"
-                            class="{{ request()->routeIs('events.index') ? 'active' : '' }}">Evenements</a></li>
-                    <li><a href="{{ route('events.create') }}"
-                            class="{{ request()->routeIs('events.create') ? 'active' : '' }}">Créer un évènement</a>
-                    </li>
-                    <li><a href="{{ route('tags.index') }}">Tags</a></li>
-                    <li><a href="{{ route('categories.index') }}">Catégories</a></li>
+                    <x-menu-link route="home" type="success">Accueil</x-menu-link>
+                    <x-menu-link route="events.index" type="">Evenements</x-menu-link>
+                    <x-menu-link route="events.create" type="">Créer un évènement</x-menu-link>
+                    <x-menu-link route="tags.index" type="">Tags</x-menu-link>
+                    <x-menu-link route="categories.index" type="">Catégories</x-menu-link>
                 </ul>
             </nav>
         </div>
