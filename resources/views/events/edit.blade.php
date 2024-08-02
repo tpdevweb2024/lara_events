@@ -51,7 +51,7 @@
 
                         <div class="submit">
                             <div>
-                                <button type="submit" class="">Créer</button>
+                                <button type="submit" class="">Modifier</button>
                             </div>
                         </div>
                     </form>
