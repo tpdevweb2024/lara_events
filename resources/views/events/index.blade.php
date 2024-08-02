@@ -15,7 +15,7 @@
                     <div class="card">
                         <div class="card-img">
                             <span class="category">{{ ucwords($event->category->name) }}</span>
-                            <img src="https://picsum.photos/id/52/300/200" alt="Card image">
+                            <img src="https://picsum.photos/id/{{ rand(1, 100) }}/300/200" alt="Card image">
                         </div>
                         <div class="card-content">
                             <h2>{{ $event->title }}</h2>
@@ -27,11 +27,24 @@
                             </div>
                             <p>{{ $event->description }}</p>
                             <div class="card-cta">
-                                <a href="" class="card-button">Voir l'évènement</a>
+                                <a href="{{ route('events.show', $event) }}" class="card-button">Voir l'évènement</a>
                             </div>
                         </div>
                     </div>
                 @endforeach
+            </div>
+
+            <div class="pagination">
+                <ul class="pagination-list">
+                    @foreach ($events->getUrlRange(1, $events->lastPage()) as $page => $url)
+                        @if ($page == $events->currentPage())
+                            <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                        @else
+                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
             </div>
         </div>
     </main>

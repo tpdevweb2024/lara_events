@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
+use App\Models\Event;
+use App\Models\Category;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
-use App\Models\Event;
 
 class EventController extends Controller
 {
@@ -13,7 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::with(["category", "tags"])->get();
+        $events = Event::with(["category", "tags"])->paginate(9);
         return view("events.index", ["events" => $events]);
     }
 
@@ -22,7 +24,12 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view("events.create", [
+            "categories" => $categories,
+            "tags" => $tags
+        ]);
     }
 
     /**
@@ -30,7 +37,18 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        //
+        // On peut aussi utiliser $request->validate() plutôt que le StoreEventRequest
+        $event = new Event();
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->date = $request->date;
+        $event->category_id = $request->category_id;
+        $event->save();
+
+        // Il est nécessaire de posséder un id de $event avant de générer les FK avec les tags
+        // Donc on le save puis on attach les mots clés associés
+        $event->tags()->attach($request->tags);
+        return redirect()->route("events.index");
     }
 
     /**
@@ -38,7 +56,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view("events.show", [
+            "event" => $event
+        ]);
     }
 
     /**
@@ -46,7 +66,13 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view("events.edit", [
+            "event" => $event,
+            "categories" => $categories,
+            "tags" => $tags
+        ]);
     }
 
     /**
@@ -54,7 +80,13 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->date = $request->date;
+        $event->category_id = $request->category_id;
+        $event->save();
+        $event->tags()->sync($request->tags);
+        return redirect()->route("events.index");
     }
 
     /**
@@ -62,6 +94,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $event->delete();
+        return redirect()->route("events.index");
     }
 }
